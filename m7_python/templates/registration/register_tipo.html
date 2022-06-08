@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+    <h1>Elegir nuevo tipo usuario</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>Elegir</button>
+    </form>
+</div>
+</div>
+</div>
+{% endblock %}

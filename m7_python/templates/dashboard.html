@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center mt-3">
+            <div class="col-8 text-center">
+                <h1 class="mt-3"> Bienvenid@ de nuevo {{user.username}} </h1>
+                <h5> Nombre: {{user.first_name}} {{user.last_name}}</h5>
+                <h5> Email: {{user.email}} </h5>
+                {% if user.profile.id_tipo_user_id == 2 %}
+                <h5>Usuario: Arrendador </h5>
+                {% else %}
+                <h5>Usuario: Arrendatario </h5>
+                {% endif %}
+                <!-- Se pueden ocupar las dos modalidades de URL 
+                    en una etiqueta html <a> -->
+                <a href="/update_profile?id_usuario={{ user.id }} "><button style="margin-right: 1rem;" type="button" class="btn btn-primary pr-4">Editar perfil de usuario</button></a> <!-- Forma de hacerlo número uno -->
+                <a href="{% url 'logout' %}"><button type="button" class="btn btn-danger">Logout</button></a>
+                {% if utipo == 2 %}
+                <a href="{% url 'new_inmueble_url' %}"><button style="margin-left: 1rem;" type="button" class="btn btn-primary">Nuevo inmueble</button></a>
+                {% endif %}
+                
+                {% if utipo == 2 %}
+                <h3 class="mt-5">Tus propiedades publicadas:</h3>
+                <div class="mb-5">
+                    {% for product in inmuebles %}
+                    <div class="card text-center mb-3">
+                        <div class="card-header">
+                            {{ product.direccion }}
+                        </div>
+                        <div class="card-body">
+                        <h5 class="card-title">{{ product.nombre_inmueble }}</h5>
+                        <p class="card-text">{{ product.descripcion }}</p>
+                        <a href="/update_inmueble?id_inmueble={{ product.id }}"><button type="button" class="btn btn-primary">Editar</button></a>
+                        <a href="/eliminar_inmueble?id_inmueble={{ product.id }}"><button type="button" class="btn btn-primary">Borrar</button></a>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                {% else %}
+                    <h4 style="color: blue; text-decoration: underline" class="my-3 mt-5">Lista de propiedades publicadas</h4>
+                            {% for product in inmuebles %}
+                            <div class="card text-center mb-3">
+                                <div class="card-header">
+                                    {{ product.direccion }}
+                                </div>
+                                <div class="card-body">
+                                  <h5 class="card-title">{{ product.nombre_inmueble }}</h5>
+                                  <p class="card-text">{{ product.descripcion }}</p>
+                                  <a href="#" class="btn btn-primary">Mostrar propiedad</a>
+                                </div>
+                                <div class="card-footer text-muted">
+                                  2 days ago
+                                </div>
+                            </div>
+                            {% endfor %}
+                {% endif %}
+                </div>
+                        <div class="text-center my-3">
+                            <a href="{% url 'home' %}"><button type="submit" class="btn btn-dark">Volver al home</button></a>
+                            <!--<a href="{% url 'logout' %}"><button type="button" class="btn btn-danger">Logout</button></a>    Forma de hacerlo número dos, ambas son válidas, esta segunda ocupa el router de django -->
+                        </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
